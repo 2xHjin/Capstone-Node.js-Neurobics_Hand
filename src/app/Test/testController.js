@@ -3,7 +3,7 @@ const testService = require("./testService");
 const baseResponse = require("../../../config/baseResponseStatus");
 const {response, errResponse} = require("../../../config/response");
 
-
+//테스트 api
 exports.getTest = async function (req,res) {
     return res.send(response(baseResponse.SUCCESS));
 }
