@@ -8,7 +8,9 @@ exports.getTest = async function (req,res) {
     return res.send(response(baseResponse.SUCCESS));
 }
 
+
 /*
+ * API No. 3
 테스트 상세 조회 api
 [get]/test/:qIdx
 */
