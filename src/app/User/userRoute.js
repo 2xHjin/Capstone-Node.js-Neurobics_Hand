@@ -5,5 +5,5 @@ module.exports = function(app){
     app.post('/app/users', user.postUsers);
 
     // 1.3 유저 상세 조회 api
-    app.get('/users/:userIdx', user.getUserPost);
+   // app.get('/users/:userIdx', user.getUserPost);
 };

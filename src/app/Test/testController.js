@@ -1,5 +1,4 @@
 const testProvider = require("./testProvider");
-const testService = require("./testService");
 const baseResponse = require("../../../config/baseResponseStatus");
 const {response, errResponse} = require("../../../config/response");
 
@@ -10,8 +9,7 @@ exports.getTest = async function (req,res) {
 
 
 /*
- * API No. 3
-테스트 상세 조회 api
+테스트 문항 상세 조회 api
 [get]/test/:qIdx
 */
 exports.getQ = async function(req,res){
@@ -24,6 +22,7 @@ exports.getQ = async function(req,res){
    if(!qIdx){
     return res.send(errResponse(baseResponse.TEST_QIDX_EMPTY));
    }
+   
    if(qIdx<=0){
     return res.send(errResponse(baseResponse.TEST_QIDX_LENGTH));
    }
