@@ -10,7 +10,7 @@ exports.getTest = async function (req,res) {
 
 /*
 테스트 문항 상세 조회 api
-[get]/test/:qIdx
+[get]/tests/:qIdx
 */
 exports.getQ = async function(req,res){
     /*

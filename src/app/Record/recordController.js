@@ -4,8 +4,8 @@ const recordService = require("./recordService");
 const recordProvider = require("./recordProvider");
 
 /*
-    API Name: 운동 기록 날짜별 조회 api
-    [GET] /record/
+    API Name: 운동 기록 날짜별 조회 API
+    [GET] /records
 */
 exports.getRecordDay = async function(req, res) {
  
@@ -22,15 +22,12 @@ exports.getRecordDay = async function(req, res) {
 }
 
 /*
-    API Name: 운동 기록 생성 api
-    [POST]                 /posts
-    /posts?userIdx=
+    API Name: 운동 기록 생성 API
+    [POST]/records
     누가 작성했는지 알아야함 내용 필요
 */
 exports.postRecord = async function(req, res) {
-    /*
-        Body: userIdx, content, postImgUrls
-    */
+
     const { userIdx,dayIdx,level1NumE,level1A,level2NumE,level2A,level3NumE,level3A } = req.body;
 
     //기록을 저장한 유저테이블에 정확하게 기록하기위해 로그인 정보와 비교
@@ -53,16 +50,11 @@ exports.postRecord = async function(req, res) {
 }
 
 /*
-    API No. 3.3
     API Name: 게시물 수정 API
     [PATCH] /records
 */
 
 exports.patchPost = async function(req, res) {
-    /*
-        Body: content
-        Path Variable: postIdx
-    */
 
     const {dayIdx,userIdx,level,NumE,A} = req.body;
 
@@ -71,9 +63,9 @@ exports.patchPost = async function(req, res) {
         return res.send(errResponse(baseResponse.USER_DAYIDX_EMPTY));
     }
    
-    const editPostResponse = 
+    const editRecordResponse = 
     await recordService.editPost(dayIdx,userIdx,level,NumE,A);
 
-    return res.send(editPostResponse);
+    return res.send(editRecordResponse);
 }
 

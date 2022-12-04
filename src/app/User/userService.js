@@ -1,30 +1,29 @@
 const {logger} = require("../../../config/winston");
 const {pool} = require("../../../config/database");
-const secret_config = require("../../../config/secret");
+//const secret_config = require("../../../config/secret");
 const userDao = require("./userDao");
 const baseResponse = require("../../../config/baseResponseStatus");
 const {response} = require("../../../config/response");
 const {errResponse} = require("../../../config/response");
 
-const jwt = require("jsonwebtoken");
+/*const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const {connect} = require("http2");
+*/
 
-// Service: Create, Update, Delete 비즈니스 로직 처리
+// Service: Create 비즈니스 로직 처리
 
-exports.createUser = async function(uName){// (email, password, nickname) {
+exports.createUser = async function(uName){
     try {
-        // 이메일 중복 확인
-    
-        // 비밀번호 암호화
+        //이름중복확인 없음
         const insertUserInfoParams = [uName];
 
         const connection = await pool.getConnection(async (conn) => conn);
 
-        const userIdResult = await userDao.insertUserInfo(connection, insertUserInfoParams);
-        console.log(`추가된 회원 : ${userIdResult[0].insertId}`)
+        const userIdxResult = await userDao.insertUserInfo(connection, insertUserInfoParams);
+        console.log(`추가된 회원 : ${userIdxResult[0].insertId}`)
         connection.release();
-        return response(baseResponse.SUCCESS,{'userId': userIdResult[0].insertId});
+        return response(baseResponse.SUCCESS,{'userId': userIdxResult[0].insertId});
 
 
     } catch (err) {

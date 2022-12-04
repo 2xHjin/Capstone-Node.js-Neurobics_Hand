@@ -2,7 +2,7 @@ const {pool} = require("../../../config/database");
 const baseResponse = require("../../../config/baseResponseStatus");
 const {response, errResponse} = require("../../../config/response");
 const recordDao = require("./recordDao");
-const recordProvider = require("./recordProvider");
+//const recordProvider = require("./recordProvider");
 
 exports.createRecord = async function( userIdx,dayIdx,level1NumE,level1A,level2NumE,level2A,level3NumE,level3A) {
     const connection = await pool.getConnection(async (conn) => conn);
@@ -35,7 +35,6 @@ exports.editPost = async function (dayIdx,userIdx,level,NumE,A) {
     const connection = await pool.getConnection(async (conn) => conn);
 
     try {
-       // const editPostParams = [dayIdx,userIdx,level,NumE,A];
         const editPostResult = await recordDao.updatePost(connection,dayIdx,userIdx,level,NumE,A);
 
         return response(baseResponse.SUCCESS);
