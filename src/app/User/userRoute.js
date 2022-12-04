@@ -4,6 +4,8 @@ module.exports = function(app){
     // 1. 유저 생성 (회원가입) API
     app.post('/app/users', user.postUsers);
 
+
+
     // 1.3 유저 상세 조회 api
-   // app.get('/users/:userIdx', user.getUserPost);
+    app.get('/app/uNames', user.getUserPost);
 };

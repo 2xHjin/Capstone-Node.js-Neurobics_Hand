@@ -1,6 +1,6 @@
 async function insertRecord(connection, insertPostParams) {
     const insertPostQuery = `
-        INSERT INTO Record(uIdx, dayIdx,
+        INSERT INTO Record(userIdx, dayIdx,
             level1NumE, level1A,
             level2NumE, level2A,
             level3NumE, level3A )
@@ -13,43 +13,63 @@ async function insertRecord(connection, insertPostParams) {
 };
 
 
+
 // 날짜별 운동기록 조회
-async function selectRecord(connection, dayIdx) {
+
+async function selectRecord(connection, dayIdx,userIdx) {
     const selectPostsQuery = `
-            SELECT p.postIdx as postIdx,
-	            u.userIdx as userIdx,
-	            u.nickName as nickName,
-	            u.profileImgUrl as profileImgUrl,
-	            p.content as content,
-	            IF(postLikeCount is null, 0, postLikeCount) as postLikeCount,
-	            IF(commentCount is null, 0, commentCount) as commentCount,
-	            case
-	                when timestampdiff(second, p.updatedAt, current_timestamp) < 60
-	                    then concat(timestampdiff(second, p.updatedAt, current_timestamp), '초 전')
-	                when timestampdiff(minute , p.updatedAt, current_timestamp) < 60
-	                    then concat(timestampdiff(minute, p.updatedAt, current_timestamp), '분 전')
-	                when timestampdiff(hour , p.updatedAt, current_timestamp) < 24
-	                    then concat(timestampdiff(hour, p.updatedAt, current_timestamp), '시간 전')
-	                when timestampdiff(day , p.updatedAt, current_timestamp) < 365
-	                    then concat(timestampdiff(day, p.updatedAt, current_timestamp), '일 전')
-	                else timestampdiff(year , p.updatedAt, current_timestamp)
-	            end as uploadTime,
-	            IF(pl.status = 'ACTIVE', 'Y', 'N') as likeOrNot
-	        FROM Post as p
-	            join User as u on u.userIdx = p.userIdx
-	            left join (select postIdx, count(postLikeidx) as postLikeCount from PostLike WHERE status = 'ACTIVE' group by postIdx) plc on plc.postIdx = p.postIdx
-	            left join (select postIdx, count(commentIdx) as commentCount from Comment WHERE status = 'ACTIVE' group by postIdx) c on c.postIdx = p.postIdx
-	            left join Follow as f on f.followeeIdx = p.userIdx and f.status = 'ACTIVE'
-	            left join PostLike as pl on pl.userIdx = f.followerIdx and pl.postIdx = p.postIdx
-	        WHERE f.followerIdx = ? and p.status = 'ACTIVE'
-	        group by p.postIdx;
+    select level1NumE,level1A,level2NumE,level2A,level3NumE,level3A
+    from Record
+    where dayIdx=? and userIdx= ?;
     `;
 
-    const [postRows] = await connection.query(selectPostsQuery, dayIdx);
+    const [postRows] = await connection.query(selectPostsQuery, [dayIdx,userIdx]);
 
     return postRows;
 }
+
+
+
+//dayIdx,uIdx,level,NumE,A
+async function updatePost(connection, dayIdx,userIdx,level,NumE,A) {
+    if(level==1){
+    //${userIdResult[0].insertId}
+    const updatePostQuery = `
+        UPDATE Record
+        SET level1A = (level1A*level1NumE+'?'*'?')/(level1NumE+'?'), 
+            level1NumE = level1NumE+'?'
+        WHERE dayIdx = ? and userIdx = ?;
+    `;
+
+    const updatePostRow = await connection.query(updatePostQuery, [A,NumE,NumE,NumE,dayIdx,userIdx]);
+    return updatePostRow;
+}
+else if(level==2){
+    const updatePostQuery = `
+    UPDATE Record
+    SET level2A = (level2A*level2NumE+'?'*'?')/(level2NumE+'?'), 
+    level2NumE = level2NumE+'?'
+    WHERE dayIdx = ? and userIdx = ?;
+`;
+
+const updatePostRow = await connection.query(updatePostQuery, [A,NumE,NumE,NumE,dayIdx,userIdx]);
+return updatePostRow;
+}
+else if(level==3){
+    const updatePostQuery = `
+    UPDATE Record
+    SET level3A = (level3A*level3NumE+'?'*'?')/(level3NumE+'?'), 
+    level3NumE = level3NumE+'?'
+    WHERE dayIdx = ? and userIdx = ?;
+`;
+
+const updatePostRow = await connection.query(updatePostQuery, [A,NumE,NumE,NumE,dayIdx,userIdx]);
+return updatePostRow;
+}
+
+}
 module.exports = {
     insertRecord,
-    selectRecord
+    selectRecord,
+    updatePost
   };

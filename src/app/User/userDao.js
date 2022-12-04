@@ -1,7 +1,7 @@
 // 유저 생성
 async function insertUserInfo(connection, insertUserInfoParams) {
   const insertUserInfoQuery = `
-        INSERT INTO UserInfo(uName)
+        INSERT INTO User(uName)
         VALUES (?);
     `;
   const insertUserInfoRow = await connection.query(
@@ -12,5 +12,17 @@ async function insertUserInfo(connection, insertUserInfoParams) {
   return insertUserInfoRow;
 }
 
-  module.exports = {
-    insertUserInfo  };
+
+async function selectUserIdx(connection, uName) {
+  const selectUserEmailQuery = `
+                SELECT userIdx
+                FROM User
+                WHERE uName = ?;
+                `;
+  const [emailRows] = await connection.query(selectUserEmailQuery, uName);
+  return emailRows;
+}
+
+ module.exports = {
+   insertUserInfo,
+   selectUserIdx  };

@@ -1,4 +1,5 @@
 const userService = require("./userService");
+const userProvider = require("./userProvider");
 const baseResponse = require("../../../config/baseResponseStatus");
 const {response, errResponse} = require("../../../config/response");
 
@@ -41,21 +42,38 @@ const {response, errResponse} = require("../../../config/response");
     API No. 1.3
     API Name: 유저 상세 조회 API
     [GET] /users/:userIdx
+
 */
-exports.getUserPost = async function (req, res) {
-    /*
+/*
         Path Variable: userIdx
     */
-    const uIdx = req.params.uIdx;
+
+exports.getUserPost = async function (req, res) {
+    
+    const {uName} = req.body;
 
     // validation
-    if(!uIdx) {
-        return res.send(errResponse(baseResponse.USER_USERIDX_EMPTY));
-    } 
-    if (uIdx <= 0) {
-        return res.send(errResponse(baseResponse.USER_USERIDX_LENGTH));
-    }
+    if (!uName)
+    return res.send(response(baseResponse.SIGNUP_NAME_EMPTY));
 
-    const uIdxResult = await userProvider.retrieveUserPost(uIdx,dayIdx);
+// 길이 체크
+    if (uName.length > 30)
+    return res.send(response(baseResponse.SIGNUP_NAME_LENGTH));
+  
+
+    const uIdxResult = await userProvider.uIdxCheck(uName);
     return res.send(response(baseResponse.SUCCESS, uIdxResult))
 }
+/*
+
+exports.login = async function (req, res) {
+
+    const {uName} = req.body;
+
+    // TODO: email, password 형식적 Validation
+
+    const signInResponse = await userService.postSignIn(uName);
+
+    return res.send(signInResponse);
+};
+*/
