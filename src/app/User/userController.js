@@ -4,7 +4,6 @@ const baseResponse = require("../../../config/baseResponseStatus");
 const {response, errResponse} = require("../../../config/response");
 
 
-
 /**
  * API No. 1
  * API Name : 유저 생성 (회원가입) API
@@ -36,7 +35,6 @@ const {response, errResponse} = require("../../../config/response");
 //수정하기!!!!!
     return res.send(signUpResponse);
 };
-
 
 /*
     API No. 1.3
