@@ -13,13 +13,13 @@ async function insertUserInfo(connection, insertUserInfoParams) {
 }
 
 
-async function selectUserIdx(connection, uName) {
+async function selectUserIdx(connection, uIdx) {
   const selectUserEmailQuery = `
-                SELECT userIdx
+                SELECT uName
                 FROM User
-                WHERE uName = ?;
+                WHERE userIdx = ?;
                 `;
-  const [emailRows] = await connection.query(selectUserEmailQuery, uName);
+  const [emailRows] = await connection.query(selectUserEmailQuery, uIdx);
   return emailRows;
 }
 

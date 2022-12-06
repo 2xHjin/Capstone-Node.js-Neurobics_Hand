@@ -48,9 +48,10 @@ const {response, errResponse} = require("../../../config/response");
 
 exports.getUserPost = async function (req, res) {
     
-    const {uName} = req.body;
+    const {uIdx} = req.body;
 
     // validation
+    /*
     if (!uName)
     return res.send(response(baseResponse.SIGNUP_NAME_EMPTY));
 
@@ -58,9 +59,11 @@ exports.getUserPost = async function (req, res) {
     if (uName.length > 30)
     return res.send(response(baseResponse.SIGNUP_NAME_LENGTH));
   
+*/
 
-    const uIdxResult = await userProvider.uIdxCheck(uName);
+    const uIdxResult = await userProvider.uIdxCheck(uIdx);
     return res.send(response(baseResponse.SUCCESS, uIdxResult))
+    //return res.send(response(uIdxResult))
 }
 /*
 
