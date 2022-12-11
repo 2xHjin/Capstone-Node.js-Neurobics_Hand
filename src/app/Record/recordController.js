@@ -5,12 +5,12 @@ const recordProvider = require("./recordProvider");
 
 /*
     API Name: 운동 기록 날짜별 조회 API
-    [GET] /records
+    [GET] /records/:dayIdx/:userIdx
 */
 exports.getRecordDay = async function(req, res) {
  
-    const {dayIdx,userIdx} = req.body;
-
+    const dayIdx = req.params.dayIdx;
+    const userIdx= req.params.userIdx;
     // validation
     if(!dayIdx) {
         return res.send(errResponse(baseResponse.USER_DAYIDX_EMPTY));
@@ -29,8 +29,6 @@ exports.getRecordDay = async function(req, res) {
 exports.postRecord = async function(req, res) {
 
     const { userIdx,dayIdx,level1NumE,level1A,level2NumE,level2A,level3NumE,level3A } = req.body;
-
-    //기록을 저장한 유저테이블에 정확하게 기록하기위해 로그인 정보와 비교
 
     if (!userIdx) {
         return res.send(errResponse(baseResponse.USER_USERIDX_EMPTY));
@@ -54,7 +52,7 @@ exports.postRecord = async function(req, res) {
     [PATCH] /records
 */
 
-exports.patchPost = async function(req, res) {
+exports.patchRecord = async function(req, res) {
 
     const {dayIdx,userIdx,level,NumE,A} = req.body;
 

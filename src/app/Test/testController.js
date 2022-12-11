@@ -3,10 +3,9 @@ const baseResponse = require("../../../config/baseResponseStatus");
 const {response, errResponse} = require("../../../config/response");
 
 //테스트 api
-exports.getTest = async function (req,res) {
-    return res.send(response(baseResponse.SUCCESS));
-}
-
+//exports.getTest = async function (req,res) {
+//    return res.send(response(baseResponse.SUCCESS));
+//}
 
 /*
 테스트 문항 상세 조회 api
